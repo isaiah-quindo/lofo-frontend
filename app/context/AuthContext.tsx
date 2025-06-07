@@ -42,19 +42,15 @@ interface AuthContextType {
   checkUserStatus: () => Promise<void>;
 }
 
-interface ApiError {
-  message: string;
-  error?: {
-    code?: number;
-  };
-}
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+
+  // Public paths that don't require authentication
+  const publicPaths = ['/', '/login', '/signup', '/items'];
 
   // Check if user is logged in on initial load
   useEffect(() => {
@@ -112,7 +108,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       );
 
       if (!res.ok) {
-        const errorData = (await res.json()) as ApiError;
+        const errorData = await res.json();
         throw new Error(errorData.message || 'Login failed');
       }
 
@@ -123,12 +119,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // Redirect to home page
       router.push('/');
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error('Login error:', error);
-        throw new Error(error.message || 'Failed to login. Please try again.');
-      }
-      throw new Error('Failed to login. Please try again.');
+    } catch (error: any) {
+      console.error('Login error:', error);
+      throw new Error(error.message || 'Failed to login. Please try again.');
     }
   };
 
@@ -172,8 +165,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       );
 
       if (!res.ok) {
-        const errorData = (await res.json()) as ApiError;
-        if (errorData.error?.code === 11000) {
+        const errorData = await res.json();
+        if (errorData.error.code === 11000) {
           toast.error('Email already in use');
         }
         toast.error(errorData.message || 'Signup failed');
