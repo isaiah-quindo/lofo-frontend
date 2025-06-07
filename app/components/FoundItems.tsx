@@ -24,9 +24,7 @@ const FoundItems = () => {
 
   const fetchItems = useCallback(
     async (pageNum: number = 1) => {
-      if (isLoading) return [];
       try {
-        setIsLoading(true);
         const data = await getItems(
           pageNum,
           ITEM_PER_PAGE,
@@ -40,22 +38,37 @@ const FoundItems = () => {
       } catch (error) {
         console.error('Error fetching items:', error);
         return [];
-      } finally {
-        setIsLoading(false);
       }
     },
-    [isLoading, searchTerm, filters]
+    [searchTerm, filters]
   );
 
   useEffect(() => {
-    const initFetch = async () => {
-      const items = await fetchItems();
-      setFoundItems(items);
-      setPage(1);
-      setHasMore(items.length === ITEM_PER_PAGE);
+    let mounted = true;
+    setIsLoading(true);
+
+    const loadItems = async () => {
+      try {
+        const items = await fetchItems(1);
+        if (mounted) {
+          setFoundItems(items);
+          setPage(1);
+          setHasMore(items.length === ITEM_PER_PAGE);
+        }
+      } finally {
+        if (mounted) {
+          setIsLoading(false);
+        }
+      }
     };
-    initFetch();
-  }, [fetchItems]); // Now fetchItems is properly memoized and included in dependencies
+
+    const timeoutId = setTimeout(loadItems, 300);
+
+    return () => {
+      mounted = false;
+      clearTimeout(timeoutId);
+    };
+  }, [fetchItems]);
 
   const loadMoreItems = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -63,7 +76,6 @@ const FoundItems = () => {
 
     try {
       setIsLoading(true);
-      await delay(300);
       const nextPage = page + 1;
       const newItems = await fetchItems(nextPage);
 
@@ -72,7 +84,7 @@ const FoundItems = () => {
         return;
       }
 
-      setFoundItems([...foundItems, ...newItems]);
+      setFoundItems((prev) => [...prev, ...newItems]);
       setPage(nextPage);
     } catch (error) {
       console.error('Error loading more items:', error);

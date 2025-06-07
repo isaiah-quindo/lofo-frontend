@@ -23,7 +23,10 @@ export const getItems = async (
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/items?${params.toString()}`,
       {
-        cache: 'no-store',
+        next: { revalidate: 30 }, // Cache for 30 seconds
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }
     );
 
@@ -34,6 +37,6 @@ export const getItems = async (
     return data;
   } catch (error: unknown) {
     console.error(error);
-    throw error; // Re-throw the error so it can be handled by the caller
+    throw error;
   }
 };
