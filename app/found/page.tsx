@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head';
 import Link from 'next/link';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -7,6 +8,10 @@ import FoundItems from '../components/FoundItems';
 const FoundPage = () => {
   return (
     <>
+      <Head>
+        <title>Found Items | Lost and Found</title>
+        <meta name="description" content="Found items page for Lofoph" />
+      </Head>
       <Header />
       <div className="max-w-[85rem] w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 dark:bg-black-900 text-center">
         <div className="flex justify-between items-center my-4">

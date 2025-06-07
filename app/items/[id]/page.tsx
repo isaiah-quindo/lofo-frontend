@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Head from 'next/head';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { useAuth } from '../../context/AuthContext';
@@ -40,6 +41,10 @@ function ItemPage({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <>
+      <Head>
+        <title>{item.name} | Lost and Found</title>
+        <meta name="description" content={item.description} />
+      </Head>
       <Header />
       <div className="max-w-[85rem] w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 dark:bg-black-900 py-10">
         <div className="flex gap-8">
