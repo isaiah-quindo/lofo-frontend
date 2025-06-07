@@ -5,6 +5,9 @@ import { getItems } from '@/actions/getItems';
 import { Item } from '../types/types';
 import ItemCard from './components/ItemCard';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function Home() {
   const foundItemsResponse = await getItems(1, 4, 'found');
   const lostItemsResponse = await getItems(1, 4, 'lost');

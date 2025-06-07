@@ -24,7 +24,7 @@ const Account = () => {
     const fetchUserItems = async () => {
       try {
         const res = await fetch(
-          `http://localhost:4000/api/v1/items?user=${user._id}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/items?user=${user._id}`,
           {
             headers: {
               'Content-Type': 'application/json',
