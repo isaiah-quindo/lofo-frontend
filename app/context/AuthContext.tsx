@@ -83,10 +83,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (userData) {
           setUser(userData);
         } else {
-          throw new Error('Invalid user data structure');
+          setUser(null);
         }
-      } else {
+      } else if (res.status === 401) {
+        // If unauthorized, clear the user state
         setUser(null);
+        // Don't throw error for 401 as this is an expected state
+        return;
+      } else {
+        throw new Error('Failed to fetch user data');
       }
     } catch (error) {
       console.error('Error checking authentication status:', error);
