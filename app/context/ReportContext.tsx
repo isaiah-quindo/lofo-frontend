@@ -55,7 +55,7 @@ export function ReportProvider({ children }: { children: React.ReactNode }) {
         formData.append('images', image);
       });
 
-      const response = await fetch(`${API_URL}/items`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/items`, {
         method: 'POST',
         credentials: 'include',
         body: formData,
