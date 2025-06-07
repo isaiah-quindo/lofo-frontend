@@ -66,7 +66,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Ensure we're in the browser environment
       if (typeof window === 'undefined') return;
 
-      // Make the API call without checking localStorage
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
         method: 'GET',
         headers: {
@@ -74,11 +73,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           Accept: 'application/json',
         },
         credentials: 'include',
+        mode: 'cors',
       });
 
       if (res.ok) {
         const data = await res.json();
-        // Handle both response structures (data.data.user and data.data.doc)
         const userData = data.data.user || data.data.doc;
         if (userData) {
           setUser(userData);
@@ -86,11 +85,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setUser(null);
         }
       } else if (res.status === 401) {
-        // If unauthorized, clear the user state
+        // If unauthorized, clear the user state and cookies
         setUser(null);
         // Don't throw error for 401 as this is an expected state
         return;
       } else {
+        console.error('Failed to fetch user data:', await res.text());
         throw new Error('Failed to fetch user data');
       }
     } catch (error) {
@@ -112,6 +112,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             Accept: 'application/json',
           },
           credentials: 'include',
+          mode: 'cors',
           body: JSON.stringify({ email, password }),
         }
       );
@@ -122,12 +123,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       const data = await res.json();
-
-      // Set user data
       setUser(data.data.user);
 
-      // Redirect to home page
-      router.push('/');
+      // Verify the login was successful by checking cookies
+      await checkUser();
+
+      // Only redirect if we have a user
+      if (user) {
+        router.push('/');
+      } else {
+        throw new Error('Login succeeded but session not established');
+      }
     } catch (error) {
       if (error instanceof Error) {
         console.error('Login error:', error);
