@@ -1,17 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
-import Head from 'next/head';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LostItems from '../components/LostItems';
 
+export const metadata = {
+  title: 'Lost Items | Lost and Found',
+  description: 'Lost items page for Lofoph',
+};
+
 const LostPage = () => {
   return (
     <>
-      <Head>
-        <title>Lost Items | Lost and Found</title>
-        <meta name="description" content="Lost items page for Lofoph" />
-      </Head>
       <Header />
       <div className="max-w-[85rem] w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 dark:bg-black-900 text-center">
         <div className="flex justify-between items-center my-4">
@@ -25,6 +25,7 @@ const LostPage = () => {
             Report lost item
           </Link>
         </div>
+
         <LostItems />
       </div>
       <Footer />

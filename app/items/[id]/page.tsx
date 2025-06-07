@@ -36,7 +36,6 @@ function ItemPage({ params }: { params: Promise<{ id: string }> }) {
       </>
     );
   }
-
   const itemDate = new Date(item.date);
 
   return (

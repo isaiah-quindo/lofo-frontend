@@ -123,20 +123,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       const data = await res.json();
+
+      // Set user data first
       setUser(data.data.user);
 
-      // Verify the login was successful by checking cookies
-      await checkUser();
+      // Wait a bit to ensure state is updated
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
-      // Only redirect if we have a user
-      if (user) {
-        router.push('/');
-      } else {
-        throw new Error('Login succeeded but session not established');
+      // Only navigate if we're still mounted and have a user
+      if (data.data.user) {
+        // Use replace instead of push to avoid navigation stack issues
+        router.replace('/');
       }
     } catch (error) {
+      console.error('Login error:', error);
       if (error instanceof Error) {
-        console.error('Login error:', error);
         throw new Error(error.message || 'Failed to login. Please try again.');
       }
       throw new Error('Failed to login. Please try again.');
@@ -145,20 +146,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = async () => {
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/logout`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/logout`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error('Logout failed');
+      }
+
+      // Clear user data first
+      setUser(null);
+
+      // Wait a bit to ensure state is updated
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Use replace instead of push
+      router.replace('/');
+
       toast.success('Logout successful');
     } catch (error) {
       console.error('Logout error:', error);
       toast.error('Logout failed');
-    } finally {
-      setUser(null);
-      router.push('/');
     }
   };
 
