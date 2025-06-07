@@ -9,6 +9,9 @@ const publicPathPatterns = [
   '/items',
   '/view/found',
   '/view/lost',
+  '/items/:id',
+  '/lost',
+  '/found',
 ];
 
 // Define protected paths that require authentication

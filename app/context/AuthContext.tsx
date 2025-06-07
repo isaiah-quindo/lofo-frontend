@@ -56,6 +56,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
+  // Public paths that don't require authentication
+  const publicPaths = ['/', '/login', '/signup', '/items'];
+
   // Check if user is logged in on initial load
   useEffect(() => {
     checkUser();
