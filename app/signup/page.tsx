@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 export default function SignUpPage() {
@@ -11,7 +10,6 @@ export default function SignUpPage() {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState('');
   const { signup } = useAuth();
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,9 +18,11 @@ export default function SignUpPage() {
     try {
       await signup(name, email, password, passwordConfirm);
       toast.success('Signup successful');
-    } catch (err) {
-      setError('Invalid email or password');
-      toast.error(error);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Invalid email or password';
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 

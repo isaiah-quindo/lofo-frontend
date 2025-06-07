@@ -1,5 +1,6 @@
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Link from 'next/link';
 import { getItems } from '@/actions/getItems';
 import { Item } from '../types/types';
 import ItemCard from './components/ItemCard';
@@ -27,23 +28,23 @@ export default async function Home() {
 
           <div className="mt-5 max-w-3xl text-center mx-auto">
             <p className="text-lg text-gray-600 dark:text-neutral-400">
-              Lost something? Found something? Let’s return it—together.
+              Lost something? Found something? Let's return it—together.
             </p>
           </div>
 
           <div className="mt-8 gap-3 flex justify-center">
-            <a
+            <Link
               className="inline-flex justify-center items-center gap-x-3 text-center bg-linear-to-tl from-blue-600 to-violet-600 hover:from-violet-600 hover:to-blue-600 border border-transparent text-white text-sm font-medium rounded-md focus:outline-hidden focus:from-violet-600 focus:to-blue-600 py-3 px-4"
               href="/report/found"
             >
               I found something
-            </a>
-            <a
+            </Link>
+            <Link
               className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-500 hover:border-blue-600 hover:text-blue-600 focus:outline-hidden focus:border-blue-600 focus:text-blue-600 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-700 dark:text-neutral-400 dark:hover:text-blue-500 dark:hover:border-blue-600 dark:focus:text-blue-500 dark:focus:border-blue-600"
               href="/report/lost"
             >
               I lost something
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -51,7 +52,7 @@ export default async function Home() {
       <div className="max-w-[85rem] w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 dark:bg-black-900">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl dark:text-white font-bold">Found Items</h2>
-          <a
+          <Link
             href="/items/found"
             className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
           >
@@ -71,7 +72,7 @@ export default async function Home() {
               <path d="M5 12h14"></path>
               <path d="m12 5 7 7-7 7"></path>
             </svg>
-          </a>
+          </Link>
         </div>
         <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 mb-6">
           {foundItems.map((item) => (
@@ -80,7 +81,7 @@ export default async function Home() {
         </div>
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl dark:text-white font-bold">Lost Items</h2>
-          <a
+          <Link
             href="/items/lost"
             className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
           >
@@ -100,7 +101,7 @@ export default async function Home() {
               <path d="M5 12h14"></path>
               <path d="m12 5 7 7-7 7"></path>
             </svg>
-          </a>
+          </Link>
         </div>
         <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 mb-6">
           {lostItems.map((item) => (

@@ -23,9 +23,6 @@ interface ReportContextType {
   report: (data: ItemData) => Promise<void>;
 }
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1';
-
 const ReportContext = createContext<ReportContextType | undefined>(undefined);
 
 export function ReportProvider({ children }: { children: React.ReactNode }) {

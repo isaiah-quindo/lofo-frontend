@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
 import Header from '../components/Header';
 import { useAuth } from '../context/AuthContext';
 import { Item } from '../../types/types';
@@ -103,12 +105,12 @@ const Account = () => {
             <h2 className="text-xl font-bold text-gray-800 dark:text-white">
               My Items
             </h2>
-            <a
+            <Link
               href="/items/new"
               className="inline-flex justify-center items-center gap-x-2 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white transition py-2 px-3 dark:focus:ring-offset-neutral-800"
             >
               Add New Item
-            </a>
+            </Link>
           </div>
 
           {isLoading ? (
@@ -130,10 +132,12 @@ const Account = () => {
                   key={item._id}
                   className="border border-gray-200 dark:border-neutral-700 rounded-lg overflow-hidden"
                 >
-                  <img
+                  <Image
                     className="w-full h-48 object-cover"
                     src={item.images[0] || '/default-item.jpg'}
                     alt={item.name}
+                    width={400}
+                    height={192}
                   />
                   <div className="p-4">
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
@@ -146,12 +150,12 @@ const Account = () => {
                       <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-white/10 dark:text-white capitalize">
                         {item.itemType}
                       </span>
-                      <a
+                      <Link
                         href={`/items/${item._id}`}
                         className="text-blue-600 hover:text-blue-700 text-sm font-medium"
                       >
                         View Details
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

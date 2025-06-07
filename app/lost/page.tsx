@@ -1,9 +1,10 @@
 import React from 'react';
+import Link from 'next/link';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LostItems from '../components/LostItems';
 
-const FoundPage = () => {
+const LostPage = () => {
   return (
     <>
       <Header />
@@ -12,12 +13,12 @@ const FoundPage = () => {
           <h2 className="text-2xl dark:text-white font-bold text-left">
             Lost Items
           </h2>
-          <a
+          <Link
             href="/report/lost"
             className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 focus:outline-hidden focus:bg-red-700 disabled:opacity-50 disabled:pointer-events-none"
           >
             Report lost item
-          </a>
+          </Link>
         </div>
         <LostItems />
       </div>
@@ -26,4 +27,4 @@ const FoundPage = () => {
   );
 };
 
-export default FoundPage;
+export default LostPage;

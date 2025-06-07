@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useReport } from '../../context/ReportContext';
 import { useAuth } from '../../context/AuthContext';
 import Philippines from 'philippines';
@@ -24,6 +25,10 @@ interface FormData {
   contact: string;
   category: string;
   images: File[];
+}
+
+interface ApiError {
+  message?: string;
 }
 
 export default function ReportPage({
@@ -127,9 +132,12 @@ export default function ReportPage({
 
       await report(dataToSubmit);
       toast.success('Item reported successfully');
-    } catch (err: any) {
-      setError(err?.message || 'Something went wrong, please try again.');
-      toast.error(err?.message || 'Something went wrong, please try again.');
+    } catch (error) {
+      const err = error as ApiError;
+      const errorMessage =
+        err?.message || 'Something went wrong, please try again.';
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -406,25 +414,39 @@ export default function ReportPage({
                 className="block w-full text-sm text-gray-500 file:me-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:disabled:opacity-50 file:disabled:pointer-events-none dark:text-neutral-400"
               />
               {formData.images.length > 0 && (
-                <div className="mt-4 grid grid-cols-3 gap-4">
-                  {formData.images.map((image, index) => (
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  {Array.from(formData.images).map((image, index) => (
                     <div key={index} className="relative">
-                      <img
+                      <Image
                         src={URL.createObjectURL(image)}
                         alt={`Preview ${index + 1}`}
-                        className="w-full h-24 object-cover rounded-lg"
+                        width={200}
+                        height={200}
+                        className="w-full h-auto rounded-lg"
                       />
                       <button
                         type="button"
                         onClick={() => {
-                          const newImages = formData.images.filter(
-                            (_, i) => i !== index
-                          );
+                          const newImages = Array.from(formData.images);
+                          newImages.splice(index, 1);
                           setFormData({ ...formData, images: newImages });
                         }}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
+                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
                       >
-                        ×
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
                       </button>
                     </div>
                   ))}

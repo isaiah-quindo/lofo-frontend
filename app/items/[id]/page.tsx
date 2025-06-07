@@ -1,5 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { useAuth } from '../../context/AuthContext';
@@ -13,7 +15,7 @@ function ItemPage({ params }: { params: Promise<{ id: string }> }) {
 
   useEffect(() => {
     const fetchItem = async () => {
-      const res = await fetch(`http://localhost:4000/api/v1/items/${id}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/items/${id}`);
       const data = await res.json();
       const item = data.data.doc;
       setItem(item);
@@ -42,10 +44,12 @@ function ItemPage({ params }: { params: Promise<{ id: string }> }) {
       <div className="max-w-[85rem] w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 dark:bg-black-900 py-10">
         <div className="flex gap-8">
           <div className="flex-1">
-            <img
+            <Image
               className="rounded-xl w-full h-auto"
               src={item.images[0] ? item.images[0] : './default-item.jpg'}
               alt={item.name}
+              width={800}
+              height={600}
             />
           </div>
           <div className="flex-1">
@@ -196,12 +200,12 @@ function ItemPage({ params }: { params: Promise<{ id: string }> }) {
                       {user ? (
                         item.contact
                       ) : (
-                        <a
+                        <Link
                           href="/login"
                           className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                         >
                           Login to view contact details
-                        </a>
+                        </Link>
                       )}
                     </li>
                   </ul>

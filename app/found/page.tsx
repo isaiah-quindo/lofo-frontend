@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FoundItems from '../components/FoundItems';
@@ -12,12 +13,12 @@ const FoundPage = () => {
           <h2 className="text-2xl dark:text-white font-bold w-full text-left">
             Found Items
           </h2>
-          <a
+          <Link
             href="/report/found"
             className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-non text-nowrap"
           >
             Report found item
-          </a>
+          </Link>
         </div>
 
         <FoundItems />

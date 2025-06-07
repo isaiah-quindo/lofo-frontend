@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 export default function LoginPage() {
@@ -10,7 +9,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login } = useAuth();
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,9 +18,11 @@ export default function LoginPage() {
       await login(email, password);
       // Redirect is handled in the login function
       toast.success('Login successful');
-    } catch (err) {
-      setError('Invalid email or password');
-      toast.error(error);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Invalid email or password';
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
