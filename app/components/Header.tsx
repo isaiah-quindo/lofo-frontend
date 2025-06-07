@@ -10,13 +10,13 @@ const Header = () => {
     <header className="bg-white border-b border-gray-200 dark:bg-neutral-900 dark:border-neutral-700 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full">
       <nav className="relative max-w-[85rem] w-full md:flex md:items-center md:justify-between md:gap-3 mx-auto px-4 sm:px-6 lg:px-8 py-2 dark:bg-neutral-900">
         <div className="flex items-center justify-between">
-          <a
+          <Link
             className="flex-none font-semibold text-xl text-black focus:outline-hidden focus:opacity-80 dark:text-white"
             href="/"
             aria-label="Brand"
           >
             Lost and Found
-          </a>
+          </Link>
 
           <div className="md:hidden">
             <button
@@ -115,7 +115,7 @@ const Header = () => {
                     Log out
                   </button>
                 ) : (
-                  <a
+                  <Link
                     className="p-2 w-full flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-hidden focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
                     href="/login"
                   >
@@ -135,7 +135,7 @@ const Header = () => {
                       <circle cx="12" cy="7" r="4" />
                     </svg>
                     Log in
-                  </a>
+                  </Link>
                 )}
 
                 {!user ? (

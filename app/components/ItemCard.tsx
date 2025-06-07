@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Item } from '../../types/types';
 
 const ItemCard = ({ item }: { item: Item }) => {
@@ -10,10 +11,12 @@ const ItemCard = ({ item }: { item: Item }) => {
         className="flex flex-col bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70 col-span-1"
       >
         <div className="relative">
-          <img
+          <Image
             className="w-full h-auto rounded-t-xl"
             src={item.images[0] ? item.images[0] : './default-item.jpg'}
             alt={item.name}
+            width={500}
+            height={300}
           />
           {item.itemType === 'lost' && (
             <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-800/30 dark:text-yellow-500 absolute bottom-2 right-2">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Item } from '../../types/types';
 import ItemCard from './ItemCard';
 import { getItems } from '@/actions/getItems';
@@ -24,27 +24,30 @@ const LostItems = () => {
   const cities = Philippines.cities;
   const provinces = Philippines.provinces;
 
-  const fetchItems = async (pageNum: number = 1) => {
-    if (isLoading) return [];
-    try {
-      setIsLoading(true);
-      const data = await getItems(
-        pageNum,
-        ITEM_PER_PAGE,
-        'lost',
-        searchTerm,
-        filters.category === 'all' ? '' : filters.category,
-        filters.city === 'all' ? '' : filters.city,
-        filters.province === 'all' ? '' : filters.province
-      );
-      return data.data.data as Item[];
-    } catch (error) {
-      console.error('Error fetching items:', error);
-      return [];
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const fetchItems = useCallback(
+    async (pageNum: number = 1) => {
+      if (isLoading) return [];
+      try {
+        setIsLoading(true);
+        const data = await getItems(
+          pageNum,
+          ITEM_PER_PAGE,
+          'lost',
+          searchTerm,
+          filters.category === 'all' ? '' : filters.category,
+          filters.city === 'all' ? '' : filters.city,
+          filters.province === 'all' ? '' : filters.province
+        );
+        return data.data.data as Item[];
+      } catch (error) {
+        console.error('Error fetching items:', error);
+        return [];
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [isLoading, searchTerm, filters]
+  );
 
   useEffect(() => {
     const initFetch = async () => {
@@ -54,7 +57,7 @@ const LostItems = () => {
       setHasMore(items.length === ITEM_PER_PAGE);
     };
     initFetch();
-  }, [searchTerm, filters]); // Refetch when search or filters change
+  }, [fetchItems]); // Now fetchItems is properly memoized and included in dependencies
 
   const loadMoreItems = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
