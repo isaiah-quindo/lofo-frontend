@@ -28,7 +28,8 @@ export default async function Home() {
 
           <div className="mt-5 max-w-3xl text-center mx-auto">
             <p className="text-lg text-gray-600 dark:text-neutral-400">
-              Lost something? Found something? Let's return it—together.
+              Lost something? Found something? Let&apos;s return
+              it&mdash;together.
             </p>
           </div>
 
