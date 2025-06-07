@@ -7,9 +7,6 @@ import { getItems } from '@/actions/getItems';
 import { ITEM_PER_PAGE } from '@/config/constant';
 import Philippines from 'philippines';
 
-// Add delay helper
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 const LostItems = () => {
   const [lostItems, setLostItems] = useState<Item[]>([]);
   const [page, setPage] = useState<number>(1);

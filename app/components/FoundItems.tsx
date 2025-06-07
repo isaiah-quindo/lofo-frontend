@@ -6,8 +6,6 @@ import { ITEM_PER_PAGE } from '@/config/constant';
 import { getItems } from '@/actions/getItems';
 import Philippines from 'philippines';
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 const FoundItems = () => {
   const [foundItems, setFoundItems] = useState<Item[]>([]);
   const [page, setPage] = useState<number>(1);
